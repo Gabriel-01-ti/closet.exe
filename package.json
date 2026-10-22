@@ -1,0 +1,10 @@
+{
+  "name": "closet-exe",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Moda, caos e análise combinatória",
+  "scripts": {
+    "dev": "node scripts/serve.cjs",
+    "test": "node tests/verify.cjs && node tests/ui-flow.cjs"
+  }
+}
