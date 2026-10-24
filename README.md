@@ -1,82 +1,77 @@
-# CLOSET.exe — Studio Edition
+# CLOSET.exe — versão 3.1
 
-Jogo de moda e análise combinatória, feito em HTML, CSS e JavaScript puro.
+Jogo de moda, cartas de caos e análise combinatória. Funciona com arquivos locais e em hospedagem estática, incluindo GitHub Pages.
 
-## O que esta versão inclui
+## Como abrir
 
-- Dois personagens ilustrados em vetor, inspirados nas referências fornecidas.
-- Corpo, roupas e acessórios usam a mesma base de coordenadas. O segundo personagem possui uma adaptação de proporções aplicada tanto ao corpo quanto às peças.
-- 8 blusas, 6 partes de baixo, 6 calçados e 7 escolhas de acessórios (incluindo “Sem acessório”).
-- 2.016 combinações antes das regras e das Cartas de Caos.
-- Ocasiões e regras sorteadas, 30 segundos de montagem, 5 Cartas de Caos e pergunta de 10 segundos.
-- Pontuação de estilo, velocidade e matemática; estrelas de carreira e ranking de hoje.
-- O ranking e o personagem escolhido são salvos apenas neste navegador. Não existe banco de dados nem ranking compartilhado entre dispositivos.
-- Funciona sem instalação de dependências e sem serviços externos.
+1. Extraia TODO o ZIP para uma pasta.
+2. Abra o arquivo index.html no navegador.
+3. Mantenha as pastas assets e vendor junto dos arquivos do jogo.
 
-## Testar no computador
+Não abra o HTML diretamente de dentro do ZIP. Nenhuma instalação é necessária para jogar.
 
-Extraia o ZIP e abra **index.html** no Chrome, Edge ou Firefox. Todos os arquivos devem permanecer juntos.
-
-Para servir por HTTP, se você tem Node.js instalado:
-
-```sh
-npm run dev
-```
-
-Abra o endereço exibido no terminal. A porta padrão é 4173.
-
-## Colocar no GitHub Pages
-
-1. Envie **o conteúdo da pasta** para a raiz do seu repositório. O index.html deve ficar na raiz, sem uma pasta adicional acima dele.
-2. Ative o GitHub Pages nas configurações do repositório e selecione a branch e a pasta em que você colocou o index.html.
-3. Quando o GitHub informar que a implantação terminou, abra a URL fornecida por ele.
-
-O pacote não contém credenciais, identificadores de hospedagem, fotos originais ou configurações vinculadas a uma conta do ChatGPT.
+Para desenvolvimento, com Node.js instalado:
+- npm run dev
+- abra o endereço informado pelo servidor.
+- npm test executa as verificações de regras, interface e relógios.
 
 ## Como jogar
 
-Escolha um dos personagens no provador, digite seu nome e clique em START GAME. Confira a ocasião e as duas regras e comece a montar o look. As peças com o selo ELEGANTE contam para a regra de elegância.
+1. Escolha o personagem feminino ou masculino. Cada armário tem peças e cortes próprios.
+2. Digite seu nome e escolha 30, 45, 60 ou 90 segundos para o cálculo. Recomendação para a primeira partida: 60 ou 90.
+3. Clique em START GAME, leia a ocasião e as duas regras e inicie a montagem.
+4. Nos 30 segundos de montagem, selecione parte de cima, parte de baixo, sapato e acessório. “Sem acessório” é uma escolha válida, exceto quando o caos exigir um acessório.
+5. Após 12 segundos, uma Carta de Caos muda o armário. O relógio da montagem pausa durante a carta e o cálculo.
+6. No Combo IQ, conte os looks que respeitam as duas regras e a carta. Use o Princípio Fundamental da Contagem e descarte as combinações proibidas.
+7. Responda, volte ao look e finalize as quatro escolhas antes de terminar o tempo.
 
-Após 12 segundos de montagem, a emergência pausa o relógio. Retire uma carta na tela ou selecione o efeito da carta física. A pergunta de matemática tem um relógio próprio de 10 segundos. Depois, o tempo da montagem continua de onde parou.
+O menu “Como jogar” contém instruções completas, exemplos de cálculo, regras e dicas. Abrir o guia ou os créditos durante a montagem pausa a partida; fechar retoma o tempo.
 
-“Sem acessório” é uma escolha válida, exceto após a carta Paparazzi. As peças bloqueadas pelo caos são retiradas automaticamente do look. O jogo só permite finalizar manualmente um look completo que cumpre as regras; ao esgotar o tempo, ele avalia o que foi montado.
+## Cálculo e descontos das regras
 
-## Matemática e pontuação
+Use as quantidades do armário depois da carta: parte de cima × parte de baixo × sapato × acessório. Os bloqueios da carta já foram retirados dessas quantidades.
 
-Cada look contém exatamente uma escolha de cada categoria. A contagem percorre as combinações e mantém apenas as que cumprem as duas regras e o efeito de caos. As regras do vermelho e da elegância dependem de mais de uma categoria; portanto, multiplicar as quantidades disponíveis nem sempre dá o total de looks válidos. A pergunta oferece a quantidade descartada como dica e a explicação final mostra o produto e a filtragem.
+Desconte os looks que falham na primeira regra. Aplique a segunda somente aos que sobraram, contando cada look proibido uma única vez. Exemplo didático: 24 combinações − 6 sem vermelho = 18; entre essas 18, retire 6 que não têm elegância suficiente; resultado: 12 looks válidos.
 
-- Elegância: ao menos duas peças elegantes entre blusa, parte de baixo e calçado.
-- Vermelho: pode estar na blusa, parte de baixo ou acessório.
-- Proibido tênis: bloqueia a validade de ambos os modelos de tênis.
-- STYLE: até 60 pelas regras, 30 por adequação das peças principais à ocasião e 10 por completar as quatro escolhas.
-- SPEED: com as quatro escolhas completas, 60 + 40 × segundos restantes / 30, arredondado; se faltar uma escolha, vale 0.
-- COMBO IQ: 100 por uma resposta correta em até 10 segundos; caso contrário, 0.
-- Total: até 300. As 500 estrelas de uma resposta correta são progresso separado e não aumentam o total acima de 300.
+A regra de elegância exige ao menos duas peças elegantes entre parte de cima, parte de baixo e sapato; o acessório não entra nesse mínimo. A regra do vermelho aceita vermelho em qualquer categoria. Proibido tênis elimina os looks com tênis. O limite de R$ 90 é por peça e já é aplicado pela carta ao armário.
 
-A avaliação de estilo é baseada nas tags das peças, não em uma IA.
+No Combo IQ, abra “Como calcular e fazer os descontos?” para ver os descontos reais da rodada. Depois da resposta, aparece a conta completa, com cada subtração.
+
+## Pontuação
+
+- Estilo: até 100 pontos.
+- Velocidade: até 100 pontos.
+- Combo IQ: 100 pontos pela resposta correta dentro do prazo.
+- Total máximo: 300 pontos.
+- Acertar o cálculo também dá 500 estrelas de carreira, separadas dos 300 pontos.
+
+Nome, ranking e estrelas são salvos no navegador deste aparelho. O jogo não usa contas nem sincroniza o ranking entre aparelhos.
+
+## Ajustes desta versão
+
+- Acessórios ajustados ao rosto, pescoço, mãos e pulso; a parte traseira dos lenços e colares fica atrás do corpo.
+- Acessórios masculinos próprios: transversal vermelha, bolsa carteiro, corrente de prata, relógio clássico, óculos retangulares e bandana vermelha. As quantidades, os preços e as regras de contagem permanecem iguais.
+
+- Calçados ficam sob as calças: aparece a parte da frente, sem canos atravessando o tecido.
+- Com saias e bermudas, as botas continuam com o cano visível.
+- Novas peças masculinas com cortes próprios: polos, camisas, camiseta, suéter, blazer e jaqueta.
+- Ajustes de ombros, golas e encaixe no corpo; composição compartilhada entre PixiJS e Canvas.
+- Painéis com fundo sólido, texto maior e contraste reforçado.
+- Provador e armário empilhados no celular; relógio da montagem visível durante a partida.
+- Guia completo e créditos disponíveis no menu e no rodapé.
 
 ## Cartas físicas
 
-O arquivo **CARTAS-DE-CAOS.html** contém as cinco cartas e uma página de instruções. Abra no navegador e use Imprimir para imprimir ou salvar em PDF. Durante o caos, abra “Tenho uma carta física”. Apenas cartas que alteram a rodada e preservam pelo menos uma solução aparecem. Caso uma carta não apareça, retire outra.
+Abra CARTAS-DE-CAOS.html para imprimir as cartas. Na emergência do jogo, escolha “Tenho uma carta física” e aplique o efeito retirado. O jogo lista apenas cartas que alteram o desafio e mantêm ao menos um look válido.
 
-## Estrutura
+## Desenvolvido por
 
-- index.html: interface.
-- style.css: tema e responsividade.
-- engine.js: peças, regras, contagem e pontuação.
-- avatar.js: corpos, rostos, roupas e encaixe vetorial.
-- app.js: interação, sorteio, cronômetros e armazenamento local.
-- tests/verify.cjs: testes da lógica e da integridade do desenho.
-- scripts/serve.cjs: servidor local, sem dependências.
+Gabriel Klemm Biesek — Buda  
+Instagram: https://www.instagram.com/budaa_01/
 
-## Verificação
+Fernando Rodrigues Fortes  
+Instagram: https://www.instagram.com/fefortes14/
 
-Com Node.js:
+## Recursos
 
-```sh
-npm test
-```
-
-Validação: contagem e regras testadas automaticamente; fluxo testado em DOM simulado; 54 miniaturas SVG renderizadas sem erro. A conferência da interface em um navegador real não foi concluída neste ambiente.
-
-As ilustrações são interpretações estilizadas das fotos, não retratos fotográficos. Para modificar nomes, preços, cores e tags das peças, edite engine.js. Para mudar o desenho e os pontos de encaixe, edite avatar.js.
+PixiJS está incluído localmente em vendor, com sua licença. Não é necessário baixar bibliotecas para jogar. Sem WebGL, o jogo usa Canvas; a composição HTML também permanece como alternativa de compatibilidade.

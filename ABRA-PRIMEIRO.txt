@@ -1,0 +1,10 @@
+CLOSET.exe
+
+1. Extraia todo o ZIP para uma pasta.
+2. Abra index.html no navegador.
+3. Clique em Como jogar para ver o guia completo.
+
+Escolha 60 ou 90 segundos de cálculo para começar com calma.
+
+Desenvolvido por Gabriel Klemm Biesek — Buda (@budaa_01)
+e Fernando Rodrigues Fortes (@fefortes14).
