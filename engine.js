@@ -393,9 +393,12 @@
     }
   ]
 };
+ items.top.push({id:'tradition',name:'Prenda · corpete',color:'#2546a4',price:85,formal:true,kind:'blouse',tags:['graduation','date','party']});
+ items.bottom.push({id:'tradition',name:'Prenda · saia longa',color:'#2546a4',price:90,formal:true,kind:'skirt',length:'long',tags:['graduation','date','party']});
+ items.shoe.push({id:'tradition',name:'Sapato de prenda',color:'#27262b',price:85,formal:true,kind:'closed',tags:['graduation','date','party']});
  const categories=Object.keys(items);
  const occasions=[{id:'party',name:'Festa',icon:'🪩',desc:'Brilhe até o último flash.'},{id:'date',name:'Primeiro encontro',icon:'💌',desc:'A primeira impressão é sua.'},{id:'travel',name:'Viagem',icon:'✈️',desc:'Pronta para o próximo destino.'},{id:'show',name:'Show',icon:'🎤',desc:'Seu look também é o headliner.'},{id:'graduation',name:'Formatura',icon:'🎓',desc:'Uma noite para guardar.'},{id:'cafe',name:'Café',icon:'☕',desc:'Um café. Muitos olhares.'},{id:'fashion',name:'Fashion Week',icon:'📸',desc:'A rua é sua passarela.'}];
- const rules=[{id:'elegant',name:'Precisa ser elegante',icon:'✨',help:'Ao menos 2 peças elegantes entre blusa, parte de baixo e sapato.'},{id:'red',name:'Uma peça vermelha',icon:'♥',help:'Vermelho na blusa, parte de baixo, bolsa ou lenço.'},{id:'noSneaker',name:'Proibido tênis',icon:'✕',help:'Escolha bota, sandália ou mocassim.'}];
+ const rules=[{id:'elegant',name:'Precisa ser elegante',icon:'✨',help:'Ao menos 2 peças elegantes entre blusa, parte de baixo e sapato.'},{id:'red',name:'Uma peça vermelha',icon:'♥',help:'Vermelho na blusa, parte de baixo, bolsa ou lenço.'},{id:'noSneaker',name:'Proibido tênis',icon:'✕',help:'Escolha bota, sandália, mocassim ou sapato de prenda.'}];
  const cards=[{id:'ripped',icon:'💔',title:'Sua saia rasgou.',desc:'Todas as saias estão bloqueadas.',short:'Sem saias'},{id:'rain',icon:'🌧️',title:'Começou a chover.',desc:'Sapatos abertos estão bloqueados.',short:'Sem sapatos abertos'},{id:'friend',icon:'👯',title:'Look repetido!',desc:'Sua amiga apareceu com a mesma blusa. Essa peça está bloqueada.',short:'Blusa bloqueada'},{id:'budget',icon:'💳',title:'Cartão recusado.',desc:'Agora cada peça precisa custar até R$ 90.',short:'Até R$ 90 por peça'},{id:'paparazzi',icon:'📸',title:'Paparazzi!',desc:'Agora é obrigatório usar um acessório.',short:'Acessório obrigatório'}];
  const pick=(arr,rng=Math.random)=>arr[Math.floor(rng()*arr.length)];
  function available(round,category){return items[category].filter(p=>{const c=round.chaos;if(!c)return true;if(c.id==='ripped'&&(p.kind==='skirt'||p.chaosGroup==='tailoring'))return false;if(c.id==='rain'&&p.open)return false;if(c.id==='friend'&&p.id===c.blockedId)return false;if(c.id==='budget'&&p.price>90)return false;if(c.id==='paparazzi'&&p.id==='none')return false;return true;});}
@@ -424,18 +427,19 @@
  const profiles={
  muse:{top:{tee:{name:'Camisa lavanda'},knit:{name:'Blusa framboesa'}}},
  icon:{
-  top:{pink:{name:'Polo rosé',kind:'polo'},shirt:{name:'Camisa de linho',kind:'shirt'},redtop:{name:'Polo cereja',kind:'polo'},blazer:{name:'Blazer masculino',kind:'blazer'},tee:{name:'Camiseta off-white',kind:'tee'},knit:{name:'Suéter vinho',kind:'knit'},jacket:{name:'Jaqueta jeans masculina',kind:'jacket'},satin:{name:'Camisa matcha',kind:'shirt'}},
-  bottom:{jeans:{name:'Jeans reto masculino'},trousers:{name:'Calça social masculina'},skirt:{name:'Bermuda vinho',kind:'shorts',chaosGroup:'tailoring'},miniskirt:{name:'Bermuda preta',kind:'shorts',chaosGroup:'tailoring'},shorts:{name:'Bermuda chino',kind:'shorts'},midi:{name:'Calça chino cinza',kind:'pants',chaosGroup:'tailoring'}},
-  shoe:{'rose-sneaker':{name:'Tênis urbano rosé'},tallboot:{name:'Bota de couro'},sandal:{name:'Sandália de couro'}},
-  accessory:{bag:{name:'Transversal vermelha',kind:'crossbody'},'cream-bag':{name:'Bolsa carteiro',kind:'messenger'},necklace:{name:'Corrente de prata',kind:'chain'},earrings:{name:'Relógio clássico',kind:'watch'},glasses:{name:'Óculos retangulares',kind:'glasses'},scarf:{name:'Bandana vermelha',kind:'bandana'}}
+  top:{tradition:{name:'Pilcha · camisa e colete',kind:'gaucho-shirt',red:true,color:'#38373a'},pink:{name:'Polo rosé',kind:'polo'},shirt:{name:'Camisa de linho',kind:'shirt'},redtop:{name:'Polo cereja',kind:'polo'},blazer:{name:'Blazer masculino',kind:'blazer'},tee:{name:'Camiseta off-white',kind:'tee'},knit:{name:'Suéter vinho',kind:'knit'},jacket:{name:'Jaqueta jeans masculina',kind:'jacket'},satin:{name:'Camisa matcha',kind:'shirt'}},
+  bottom:{tradition:{name:'Bombacha e guaiaca',kind:'bombacha',chaosGroup:'tailoring',color:'#38373a'},jeans:{name:'Jeans reto masculino'},trousers:{name:'Calça social masculina'},skirt:{name:'Bermuda vinho',kind:'shorts',chaosGroup:'tailoring'},miniskirt:{name:'Bermuda preta',kind:'shorts',chaosGroup:'tailoring'},shorts:{name:'Bermuda chino',kind:'shorts'},midi:{name:'Calça chino cinza',kind:'pants',chaosGroup:'tailoring'}},
+  shoe:{tradition:{name:'Bota gaúcha',kind:'boot',tall:true},'rose-sneaker':{name:'Tênis urbano rosé'},tallboot:{name:'Bota de couro'},sandal:{name:'Sandália de couro'}},
+  accessory:{bag:{name:'Transversal vermelha',kind:'crossbody'},'cream-bag':{name:'Bolsa carteiro',kind:'messenger'},necklace:{name:'Corrente de prata',kind:'chain'},earrings:{name:'Relógio clássico',kind:'watch'},glasses:{name:'Óculos retangulares',kind:'glasses'}}
  }};
+ function characterProfile(id){return ['icon','rio','pampa'].includes(id)?'icon':'muse';}
  let activeCharacter='muse';
  function setCharacter(id){
-  activeCharacter=id==='icon'?'icon':'muse';
-  for(const c of categories)items[c].splice(0,items[c].length,...originalCatalog[c].map(p=>({...p,tags:[...p.tags],...(profiles[activeCharacter][c]?.[p.id]||{})})));
+  activeCharacter=characterProfile(id);
+  for(const c of categories)items[c].splice(0,items[c].length,...originalCatalog[c].filter(p=>!(activeCharacter==='icon'&&c==='accessory'&&p.id==='scarf')).map(p=>({...p,tags:[...p.tags],...(profiles[activeCharacter][c]?.[p.id]||{})})));
   cards[0].title='Costura abriu.';
-  cards[0].desc=activeCharacter==='icon'?'As bermudas vinho e preta e a calça chino cinza estão bloqueadas.':'Todas as saias estão bloqueadas.';
+  cards[0].desc=activeCharacter==='icon'?'As bermudas vinho e preta, a calça chino cinza e a bombacha estão bloqueadas.':'Todas as saias estão bloqueadas.';
   cards[0].short=activeCharacter==='icon'?'Sem as peças de alfaiataria marcadas':'Sem saias';
  }
- const api={countBreakdown,setCharacter,items,categories,occasions,rules,cards,pick,available,ruleOK,complete,valid,enumerate,createRound,chaosOptions,applyChaos,answers,score,rank};if(typeof module!=='undefined')module.exports=api;else root.ClosetEngine=api;
+ const api={characterProfile,countBreakdown,setCharacter,items,categories,occasions,rules,cards,pick,available,ruleOK,complete,valid,enumerate,createRound,chaosOptions,applyChaos,answers,score,rank};if(typeof module!=='undefined')module.exports=api;else root.ClosetEngine=api;
 })(typeof globalThis!=='undefined'?globalThis:this);
