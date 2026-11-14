@@ -4,6 +4,7 @@
   "private": true,
   "description": "Moda, caos e análise combinatória com sete personagens femininas",
   "scripts": {
-    "dev": "node scripts/serve.cjs"
+    "dev": "node scripts/serve.cjs",
+    "test": "node tests/verify.cjs && node tests/ui-flow.cjs && node tests/countdown.cjs && node tests/counting.cjs"
   }
 }
