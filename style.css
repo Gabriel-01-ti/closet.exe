@@ -241,3 +241,5 @@ dialog::backdrop{background:rgba(29,22,40,.66);backdrop-filter:blur(5px)}
 
 /* Keep the rig canvas at its native ratio at every viewport width. */
 .avatar,.active-round .avatar{height:auto!important;aspect-ratio:2/3;flex-shrink:0;width:min(344px,100%);max-width:100%}.active-round .avatar{width:min(320px,100%)}.rig-canvas{display:block;object-fit:contain!important;aspect-ratio:2/3}.fitting-room{overflow:hidden}@media(min-width:1450px){.avatar{width:min(376px,100%)}.active-round .avatar{width:min(355px,100%)}}@media(max-width:390px){.avatar{width:min(308px,100%)}.active-round .avatar{width:min(290px,100%)}}
+
+.full-look-photo{width:100%;height:84px;object-fit:contain!important;background:#eadeef}@media(max-width:760px){.full-look-photo{height:65px}}

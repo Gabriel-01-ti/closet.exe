@@ -1,8 +1,8 @@
-CLOSET.exe — versão 3.11
+CLOSET.exe — versão 3.12
 
 1. Extraia TODO o ZIP em uma pasta nova.
 2. Abra index.html dessa pasta.
-3. Escolha entre as sete personagens femininas e comece a jogar.
+3. Escolha entre as cinco personagens e comece a jogar.
 
 Mantenha as pastas assets e vendor junto dos arquivos do jogo.
 Para hospedar o site, envie todo o conteúdo da pasta.

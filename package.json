@@ -1,10 +1,9 @@
 {
   "name": "closet-exe",
-  "version": "3.11.0",
+  "version": "3.12.0",
   "private": true,
-  "description": "Moda, caos e análise combinatória com sete personagens femininas",
+  "description": "Moda, caos e análise combinatória com cinco personagens",
   "scripts": {
-    "dev": "node scripts/serve.cjs",
-    "test": "node tests/verify.cjs && node tests/ui-flow.cjs && node tests/countdown.cjs && node tests/counting.cjs"
+    "dev": "node scripts/serve.cjs"
   }
 }

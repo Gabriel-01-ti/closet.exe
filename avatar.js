@@ -2,7 +2,7 @@
 (function(root){'use strict';
 const manifest=root.CLOSET_ASSETS||(typeof module!=='undefined'?require('./asset-manifest.js'):null);
 const W=768,H=1152;
-const characters=[{id:'muse',label:'Original',subtitle:'Personagem original',profile:'muse'},{id:'flora',label:'Flora',subtitle:'Personagem original',profile:'muse'},{id:'ana',label:'Ana',subtitle:'Foto adicionada',profile:'muse'},{id:'isadora',label:'Isadora',subtitle:'Foto adicionada',profile:'muse'},{id:'livia',label:'Lívia',subtitle:'Foto adicionada',profile:'muse'},{id:'nicole',label:'Nicole',subtitle:'Foto adicionada',profile:'muse'},{id:'sophia',label:'Sophia',subtitle:'Foto adicionada',profile:'muse'}];
+const characters=[{id:'ana',label:'Ana',subtitle:'Look original',profile:'muse'},{id:'isadora',label:'Isadora',subtitle:'Look original',profile:'muse'},{id:'livia',label:'Lívia',subtitle:'Look original',profile:'muse'},{id:'nicole',label:'Nicole',subtitle:'Look original',profile:'muse'},{id:'sophia',label:'Sophia',subtitle:'Look original',profile:'muse'}];
 const getCharacter=id=>characters.find(c=>c.id===id)||characters[0];
 const profile=id=>getCharacter(id).profile;
 const fitBodyId=id=>manifest.characters[getCharacter(id).id].fitProfile||getCharacter(id).id;
@@ -10,6 +10,7 @@ const longBottom=look=>['jeans','trousers'].includes(look.bottom?.id);
 class CharacterRig {
  constructor(id){this.character=getCharacter(id);this.id=this.character.id;this.profile=this.character.profile;this.config=manifest.characters[this.id];}
  descriptors(look){
+  if(look.top?.onePiece){const list=[],accessory=look.accessory,paths=accessory&&accessory.id!=='none'?(manifest.pieces[this.profile+':accessory:'+accessory.id]||[]):[];if(accessory&&['scarf','necklace'].includes(accessory.id))for(const path of paths)list.push({path,category:'accessory-back',item:accessory});list.push({path:look.top.image,category:'one-piece',item:look.top});for(const path of paths)list.push({path,category:'accessory',item:accessory});return list;}
   const accessory=look.accessory,neckAccessory=accessory&&['scarf','necklace'].includes(accessory.id),watch=this.profile==='icon'&&accessory?.id==='earrings';
   const accessoryPaths=accessory?(manifest.pieces[this.profile+':accessory:'+accessory.id]||[]):[],list=[];
   if(neckAccessory)for(const path of accessoryPaths)list.push({path,category:'accessory-back',item:accessory});
@@ -44,7 +45,7 @@ class CharacterRig {
   if(d.category==='neck')return 'clip-path:polygon(41.7% 13%,57.8% 13%,57.4% 17%,54% 20.5%,50% 21.2%,45% 20%,42% 17%)';
   return '';
  }
- render(look){const p=this.config.photo;return '<div class="rig-fallback" role="img" aria-label="Personagem '+this.character.label+' com o look escolhido">'+this.descriptors(look).filter(d=>d.category!=='chest-base'&&!(p&&['neck','female-neck'].includes(d.category))).map(d=>{let style=this.layerStyle(d);if(p&&d.category==='body'){const bottom=d.footwear&&!d.footwear.open?(this.profile==='icon'&&d.footwear.id==='tradition'&&d.bottomId==='tradition'?'25.35%':'7.12%'):'0';style='filter:'+p.tone+';clip-path:inset(18.23% 0 '+bottom+' 0)';}else if(p&&d.category==='hands')style+=';filter:'+p.tone;return '<img src="'+d.path+'" alt="" draggable="false" decoding="async" style="'+style+'">'+(p&&d.category==='body'?photoMarkup(this.id):'');}).join('')+'</div>';}
+ render(look){const p=this.config.photo;return '<div class="rig-fallback" role="img" aria-label="Personagem '+this.character.label+' com o look escolhido">'+this.descriptors(look).filter(d=>d.category!=='chest-base'&&!(p&&['neck','female-neck'].includes(d.category))).map(d=>{let style=this.layerStyle(d);if(p&&d.category==='body'){const bottom=d.footwear&&!d.footwear.open?'7.12%':'0';style='filter:'+p.tone+';clip-path:inset(18.23% 0 '+bottom+' 0)';}else if(p&&d.category==='hands')style+=';filter:'+p.tone;return '<img src="'+d.path+'" alt="" draggable="false" decoding="async" style="'+style+'">'+(p&&d.category==='body'?photoMarkup(this.id):'');}).join('')+'</div>';}
 
 }
 class AccessoryFitter {
@@ -250,7 +251,8 @@ class SpriteCache {
   if(profile(id)==='icon'&&category==='accessory')return 'assets/thumb-icon-accessory-'+item.id+'.webp';
   const key=[id,category,item.id].join(':');if(this.thumbnails.has(key))return this.thumbnails.get(key);
   const task=(async()=>{const paths=manifest.pieces[profile(id)+':'+category+':'+item.id]||[],canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;const ctx=canvas.getContext('2d');
-   for(const path of paths)ctx.drawImage(await this.surface({path,category,item,frontOnly:false,preview:true},id),0,0);
+   if(item.onePiece){ctx.drawImage(await this.image(item.image),0,0,W,H);}
+   else for(const path of paths)ctx.drawImage(await this.surface({path,category,item,frontOnly:false,preview:true},id),0,0);
    const a=ctx.getImageData(0,0,W,H).data;let x1=W,y1=H,x2=0,y2=0;
    for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(a[(y*W+x)*4+3]>40){x1=Math.min(x1,x);x2=Math.max(x2,x);y1=Math.min(y1,y);y2=Math.max(y2,y);}
    const thumb=document.createElement('canvas');thumb.width=240;thumb.height=240;const tc=thumb.getContext('2d');
@@ -274,7 +276,7 @@ class DressingRoom {
     for(const texture of textures){const sprite=new root.PIXI.Sprite(texture);sprite.width=W;sprite.height=H;this.app.stage.addChild(sprite);}
     this.app.render();canvas=this.app.canvas;
    }else{canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;canvas.className='rig-canvas';const ctx=canvas.getContext('2d');surfaces.forEach(s=>ctx.drawImage(s,0,0));}
-   canvas=proportionate(canvas,rig.id);
+   if(!look.top?.onePiece&&!rig.config.photo)canvas=proportionate(canvas,rig.id);
    canvas.className='rig-canvas';canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Personagem '+rig.character.label+' com as roupas escolhidas');
    this.host.replaceChildren(canvas);this.host.dataset.renderer=this.renderer;
   }catch(error){this.host.dataset.renderer='html';console.info('CLOSET: prévia original preservada.',error.message);}
@@ -286,6 +288,7 @@ function photoMarkup(id,viewBox='0 0 768 1152'){const p=manifest.characters[getC
 function portrait(id){const c=getCharacter(id),photo=manifest.characters[c.id].photo;if(photo?.portrait)return '<img src="'+photo.portrait+'" alt="" draggable="false">';if(photo)return photoMarkup(id,'270 0 228 228');return '<img src="'+manifest.characters[c.id].portrait+'" alt="" draggable="false">';}
 function thumbnail(item,category,id='muse'){
  if(item.id==='none')return '<span class="empty-accessory" aria-hidden="true">∅</span>';
+ if(item.onePiece)return '<img class="item-photo full-look-photo" src="assets/people/'+id+'-look-thumb.png" alt="" loading="lazy" decoding="async">';
  return '<img class="item-photo" data-fit-item="'+item.id+'" data-fit-category="'+category+'" src="assets/thumb-'+profile(id)+'-'+category+'-'+item.id+'.webp" alt="" loading="lazy" decoding="async">';
 }
 function paintThumbnails(host,id){if(root.location?.protocol==='file:')return;(host.querySelectorAll?.('[data-fit-item]')||[]).forEach(async image=>{
