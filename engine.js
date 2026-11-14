@@ -424,22 +424,15 @@
  function score(round,look,remaining,correct){const filled=categories.filter(c=>look[c]).length;const hits=round.rules.filter(r=>ruleOK(r.id,look)).length;const fit=['top','bottom','shoe'].filter(c=>look[c]?.tags.includes(round.occasion.id)).length;const legal=categories.every(c=>!look[c]||available(round,c).some(p=>p.id===look[c].id));const style=legal?Math.round(60*hits/round.rules.length+30*fit/3+10*filled/4):0;const speed=complete(look)?Math.round(60+40*Math.max(0,Math.min(30,remaining))/30):0;const iq=correct?100:0;return {style,speed,iq,total:style+speed+iq};}
  function rank(total){return total<=120?'Fashion Disaster 💀':total<=200?'Closet Rookie':total<=260?'It Girl ✨':'CHER WOULD APPROVE 💅';}
  const originalCatalog=Object.fromEntries(categories.map(c=>[c,items[c].map(p=>({...p,tags:[...p.tags]}))]));
- const profiles={
- muse:{top:{tee:{name:'Camisa lavanda'},knit:{name:'Blusa framboesa'}}},
- icon:{
-  top:{tradition:{name:'Pilcha · camisa e colete',kind:'gaucho-shirt',red:true,color:'#38373a'},pink:{name:'Polo rosé',kind:'polo'},shirt:{name:'Camisa de linho',kind:'shirt'},redtop:{name:'Polo cereja',kind:'polo'},blazer:{name:'Blazer masculino',kind:'blazer'},tee:{name:'Camiseta off-white',kind:'tee'},knit:{name:'Suéter vinho',kind:'knit'},jacket:{name:'Jaqueta jeans masculina',kind:'jacket'},satin:{name:'Camisa matcha',kind:'shirt'}},
-  bottom:{tradition:{name:'Bombacha e guaiaca',kind:'bombacha',chaosGroup:'tailoring',color:'#38373a'},jeans:{name:'Jeans reto masculino'},trousers:{name:'Calça social masculina'},skirt:{name:'Bermuda vinho',kind:'shorts',chaosGroup:'tailoring'},miniskirt:{name:'Bermuda preta',kind:'shorts',chaosGroup:'tailoring'},shorts:{name:'Bermuda chino',kind:'shorts'},midi:{name:'Calça chino cinza',kind:'pants',chaosGroup:'tailoring'}},
-  shoe:{tradition:{name:'Bota gaúcha',kind:'boot',tall:true},'rose-sneaker':{name:'Tênis urbano rosé'},tallboot:{name:'Bota de couro'},sandal:{name:'Sandália de couro'}},
-  accessory:{bag:{name:'Transversal vermelha',kind:'crossbody'},'cream-bag':{name:'Bolsa carteiro',kind:'messenger'},necklace:{name:'Corrente de prata',kind:'chain'},earrings:{name:'Relógio clássico',kind:'watch'},glasses:{name:'Óculos retangulares',kind:'glasses'}}
- }};
- function characterProfile(id){return ['icon','rio','pampa'].includes(id)?'icon':'muse';}
+ const profiles={muse:{top:{tee:{name:'Camisa lavanda'},knit:{name:'Blusa framboesa'}}}};
+ function characterProfile(){return 'muse';}
  let activeCharacter='muse';
  function setCharacter(id){
   activeCharacter=characterProfile(id);
   for(const c of categories)items[c].splice(0,items[c].length,...originalCatalog[c].filter(p=>!(activeCharacter==='icon'&&c==='accessory'&&p.id==='scarf')).map(p=>({...p,tags:[...p.tags],...(profiles[activeCharacter][c]?.[p.id]||{})})));
   cards[0].title='Costura abriu.';
-  cards[0].desc=activeCharacter==='icon'?'As bermudas vinho e preta, a calça chino cinza e a bombacha estão bloqueadas.':'Todas as saias estão bloqueadas.';
-  cards[0].short=activeCharacter==='icon'?'Sem as peças de alfaiataria marcadas':'Sem saias';
+  cards[0].desc='Todas as saias estão bloqueadas.';
+  cards[0].short='Sem saias';
  }
  const api={characterProfile,countBreakdown,setCharacter,items,categories,occasions,rules,cards,pick,available,ruleOK,complete,valid,enumerate,createRound,chaosOptions,applyChaos,answers,score,rank};if(typeof module!=='undefined')module.exports=api;else root.ClosetEngine=api;
 })(typeof globalThis!=='undefined'?globalThis:this);

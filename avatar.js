@@ -2,10 +2,11 @@
 (function(root){'use strict';
 const manifest=root.CLOSET_ASSETS||(typeof module!=='undefined'?require('./asset-manifest.js'):null);
 const W=768,H=1152;
-const characters=[{id:'muse',label:'Feminino 1',subtitle:'Original',profile:'muse'},{id:'flora',label:'Feminino 2',subtitle:'Foto enviada',profile:'muse'},{id:'rio',label:'Masculino 1',subtitle:'Foto enviada',profile:'icon'},{id:'pampa',label:'Masculino 2',subtitle:'Foto enviada',profile:'icon'}];
-const getCharacter=id=>characters.find(c=>c.id===(id==='icon'?'rio':id))||characters[0];
+const characters=[{id:'muse',label:'Original',subtitle:'Personagem original',profile:'muse'},{id:'flora',label:'Flora',subtitle:'Personagem original',profile:'muse'},{id:'ana',label:'Ana',subtitle:'Foto adicionada',profile:'muse'},{id:'isadora',label:'Isadora',subtitle:'Foto adicionada',profile:'muse'},{id:'livia',label:'Lívia',subtitle:'Foto adicionada',profile:'muse'},{id:'nicole',label:'Nicole',subtitle:'Foto adicionada',profile:'muse'},{id:'sophia',label:'Sophia',subtitle:'Foto adicionada',profile:'muse'}];
+const getCharacter=id=>characters.find(c=>c.id===id)||characters[0];
 const profile=id=>getCharacter(id).profile;
-const longBottom=(look,id)=>['jeans','trousers'].includes(look.bottom?.id)||(profile(id)==='icon'&&look.bottom?.id==='midi');
+const fitBodyId=id=>manifest.characters[getCharacter(id).id].fitProfile||getCharacter(id).id;
+const longBottom=look=>['jeans','trousers'].includes(look.bottom?.id);
 class CharacterRig {
  constructor(id){this.character=getCharacter(id);this.id=this.character.id;this.profile=this.character.profile;this.config=manifest.characters[this.id];}
  descriptors(look){
@@ -13,7 +14,7 @@ class CharacterRig {
   const accessoryPaths=accessory?(manifest.pieces[this.profile+':accessory:'+accessory.id]||[]):[],list=[];
   if(neckAccessory)for(const path of accessoryPaths)list.push({path,category:'accessory-back',item:accessory});
   list.push({path:this.config.body,category:'body',footwear:look.shoe,bottomId:look.bottom?.id,topId:look.top?.id});
-  if(this.profile==='muse')list.push({path:this.config.body,category:'hair-back'});
+  if(this.profile==='muse'&&!this.config.photo?.replaceHair)list.push({path:this.config.body,category:'hair-back'});
   const joined=look.top?.id==='tradition'&&look.bottom?.id==='tradition'&&(this.profile==='muse'||look.shoe?.id==='tradition');
   const tucked=this.profile==='icon'&&look.bottom?.id==='tradition'&&look.shoe?.kind==='boot';
   const order=joined?(this.profile==='muse'?['shoe','outfit','accessory']:['outfit','accessory']):tucked?['bottom','shoe','top','accessory']:['shoe','bottom','top','accessory'];
@@ -86,7 +87,7 @@ class AccessoryFitter {
 function insetSleeves(source,limit=654){const canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;const ctx=canvas.getContext('2d');ctx.drawImage(source,0,0);for(let y=210;y<Math.min(654,limit<654?limit+16:654);y++){const strength=limit<654?1-smooth(limit-16,limit+16,y):1,d0=y<300?(y-210)/9:y<450?10+(y-300)*.08:y<620?22+(y-450)*8/170:30,d=d0*strength;const sx=[0,100,235,275,493,533,668,W],dx=[0,100+d,235+d,275,493,533-d,668-d,W];ctx.clearRect(0,y,W,1);for(let i=0;i<sx.length-1;i++)ctx.drawImage(source,sx[i],y,sx[i+1]-sx[i],1,dx[i],y,dx[i+1]-dx[i],1);}return canvas;}
 
 const smooth=(a,b,v)=>{const t=Math.min(1,Math.max(0,(v-a)/(b-a)));return t*t*(3-2*t);};
-const bodyProportions={muse:{head:1.035,headY:.035,torso:.985,hip:.99},flora:{head:1.13,headY:.10,torso:.98,hip:.985},rio:{head:1.065,headY:.04,torso:.97,hip:.985,waistLift:18},pampa:{head:1.085,headY:.055,torso:.97,hip:.985,waistLift:18}};
+const bodyProportions={muse:{head:1.035,headY:.035,torso:.985,hip:.99},flora:{head:1.13,headY:.10,torso:.98,hip:.985},ana:{head:1.035,headY:.035,torso:.985,hip:.99},isadora:{head:1.035,headY:.035,torso:.985,hip:.99},livia:{head:1.035,headY:.035,torso:.985,hip:.99},nicole:{head:1.035,headY:.035,torso:.985,hip:.99},sophia:{head:1.035,headY:.035,torso:.985,hip:.99}};
 function proportionate(source,id){
  const p=bodyProportions[getCharacter(id).id],out=document.createElement('canvas');out.width=W;out.height=H;const ctx=out.getContext('2d');ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
  function targetY(y){return y+(y-115)*p.headY*(1-smooth(190,250,y))-(p.waistLift||0)*smooth(242,565,y)*(1-smooth(700,1140,y));}
@@ -96,7 +97,7 @@ function proportionate(source,id){
 function rowBounds(map,y){const v=Math.max(0,Math.min(map.length-1,y/4)),a=Math.floor(v),b=Math.min(a+1,map.length-1),t=v-a;return [map[a][0]*(1-t)+map[b][0]*t,map[a][1]*(1-t)+map[b][1]*t];}
 function insetX(x,y,limit=654){if(y<210||y>=654)return x;const strength=limit<654?1-smooth(limit-16,limit+16,y):1,d0=y<300?(y-210)/9:y<450?10+(y-300)*.08:y<620?22+(y-450)*8/170:30,d=d0*strength;const a=[0,100,235,275,493,533,668,W],b=[0,100+d,235+d,275,493,533-d,668-d,W];for(let i=0;i<a.length-1;i++)if(x<=a[i+1])return b[i]+(x-a[i])*(b[i+1]-b[i])/(a[i+1]-a[i]);return x;}
 function fitFabric(source,d,id){
- const fit=manifest.fit,raw=fit?.pieces[d.path],body=fit?.bodies[getCharacter(id).id];if(!raw||!body)return source;
+ const fit=manifest.fit,raw=fit?.pieces[d.path],body=fit?.bodies[fitBodyId(id)];if(!raw||!body)return source;
  const out=document.createElement('canvas');out.width=W;out.height=H;const ctx=out.getContext('2d');ctx.imageSmoothingQuality='high';ctx.drawImage(source,0,0);
  const male=profile(id)==='icon',ease=!male&&d.item?.id==='pink'?19:male?12:10;
  const longSleeve=male?['shirt','blazer','knit','jacket','satin','tradition'].includes(d.item?.id):['blazer','jacket'].includes(d.item?.id);
@@ -121,7 +122,7 @@ function fitFemaleShoulders(source,d,id){
  return c;
 }
 function hideFemaleBase(ctx,d,id){
- const core=manifest.fit?.bodies[id]?.core;if(!core)return;
+ const core=manifest.fit?.bodies[fitBodyId(id)]?.core;if(!core)return;
  const topPath=manifest.pieces['muse:top:'+d.topId]?.[0],topEnd=manifest.fit?.pieces[topPath]?.box?.[3]||536,bottomPath=manifest.pieces['muse:bottom:'+d.bottomId]?.[0],bottomStart=d.topId?500:(manifest.fit?.pieces[bottomPath]?.box?.[1]||501)-1,covered=longBottom({bottom:{id:d.bottomId}},id)||d.bottomId==='tradition',end=covered?646:627;
  for(let y=355;y<end;y++){
   const top=d.topId&&y<Math.min(627,topEnd),bottom=d.bottomId&&y>=bottomStart;
@@ -139,14 +140,14 @@ function repairedSkin(image,id){
  sc.drawImage(image,370,224,24,18,290,214,190,120);sc.restore();sc.globalCompositeOperation='destination-in';sc.drawImage(image,0,0);ctx.drawImage(skin,0,0);return out;
 }
 function fittedShoe(image,d,id){
- const box=manifest.fit?.pieces[d.path]?.box,feet=manifest.fit?.bodies[getCharacter(id).id]?.feet;if(!box||!feet)return image;
+ const box=manifest.fit?.pieces[d.path]?.box,feet=manifest.fit?.bodies[fitBodyId(id)]?.feet;if(!box||!feet)return image;
  const side=/-1\.webp$/.test(d.path)?1:0,center=(box[0]+box[2])/2,dx=feet[side]-center,dy=1138-box[3],out=document.createElement('canvas');out.width=W;out.height=H;out.getContext('2d').drawImage(image,dx,dy);return out;
 }
 
 
 
 function fitBottom(source,d,id){
- const data=manifest.fit?.pieces[d.path],body=manifest.fit?.bodies[getCharacter(id).id];if(!data||!body)return source;
+ const data=manifest.fit?.pieces[d.path],body=manifest.fit?.bodies[fitBodyId(id)];if(!data||!body)return source;
  const male=profile(id)==='icon',isOutfit=d.category==='outfit';if(isOutfit&&!male)return source;
  const pants=isOutfit||(d.category==='bottom'&&(longBottom({bottom:{id:d.item?.id}},id)||(male&&d.item?.id==='tradition')));
  const topPath=manifest.pieces[profile(id)+':top:'+d.topId]?.[0],top=manifest.fit.pieces[topPath],waistY=data.box[1]+12;
@@ -282,7 +283,7 @@ class DressingRoom {
 }
 function render(look,id){return new CharacterRig(id).render(look);}
 function photoMarkup(id,viewBox='0 0 768 1152'){const p=manifest.characters[getCharacter(id).id].photo;if(!p)return '';const key='photo-'+getCharacter(id).id+(viewBox==='0 0 768 1152'?'-body':'-portrait');return '<svg class="photo-face" viewBox="'+viewBox+'" aria-hidden="true"><defs><mask id="'+key+'" maskUnits="userSpaceOnUse" x="0" y="0" width="'+p.width+'" height="'+p.height+'" style="mask-type:alpha"><image href="'+p.mask+'" width="'+p.width+'" height="'+p.height+'"/></mask></defs><g transform="matrix('+p.matrix.join(' ')+')"><image href="'+p.path+'" width="'+p.width+'" height="'+p.height+'" mask="url(#'+key+')"/></g></svg>';}
-function portrait(id){const c=getCharacter(id);if(manifest.characters[c.id].photo)return photoMarkup(id,'270 0 228 228');return '<img src="'+manifest.characters[c.id].portrait+'" alt="" draggable="false">';}
+function portrait(id){const c=getCharacter(id),photo=manifest.characters[c.id].photo;if(photo?.portrait)return '<img src="'+photo.portrait+'" alt="" draggable="false">';if(photo)return photoMarkup(id,'270 0 228 228');return '<img src="'+manifest.characters[c.id].portrait+'" alt="" draggable="false">';}
 function thumbnail(item,category,id='muse'){
  if(item.id==='none')return '<span class="empty-accessory" aria-hidden="true">∅</span>';
  return '<img class="item-photo" data-fit-item="'+item.id+'" data-fit-category="'+category+'" src="assets/thumb-'+profile(id)+'-'+category+'-'+item.id+'.webp" alt="" loading="lazy" decoding="async">';
