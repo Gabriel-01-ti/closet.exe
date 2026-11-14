@@ -1,43 +1,33 @@
-# CLOSET.exe — versão 3.10
+# CLOSET.exe — edição 3.12
 
-Jogo de moda, cartas de caos e análise combinatória. Funciona com arquivos locais e em hospedagem estática, incluindo GitHub Pages.
+Jogo de moda, cartas de caos e análise combinatória com Ana, Isadora, Lívia, Nicole e Sophia. Cada personagem tem seu look original em uma peça única e pode usar as roupas separadas do armário.
 
 ## Como abrir
 
-1. Extraia TODO o ZIP em uma pasta nova.
-2. Abra o arquivo index.html no navegador.
-3. Mantenha as pastas assets e vendor junto dos arquivos do jogo.
+1. Extraia o ZIP inteiro para uma pasta.
+2. Abra `index.html` no navegador.
+3. Mantenha a pasta `assets` junto dos arquivos do jogo.
 
-Não abra o HTML diretamente de dentro do ZIP. Nenhuma instalação é necessária para jogar.
-
-Para desenvolvimento, com Node.js instalado:
-- npm run dev
-- abra o endereço informado pelo servidor.
-- npm test executa as verificações de regras, interface e relógios.
+Não abra o HTML diretamente de dentro do ZIP. Não é necessário instalar nada.
 
 ## Como jogar
 
-1. Escolha um dos quatro personagens: dois femininos e dois masculinos. Os três personagens adicionados foram refeitos a partir das fotografias de referência, com postura alinhada e união contínua entre cabeça, pescoço e corpo. A personagem feminina original continua disponível. As peças e os acessórios seguem o armário de cada gênero.
-2. Digite seu nome e escolha 30, 45, 60 ou 90 segundos para o cálculo. Recomendação para a primeira partida: 60 ou 90.
-3. Clique em START GAME, leia a ocasião e as duas regras e inicie a montagem.
-4. Nos 30 segundos de montagem, selecione parte de cima, parte de baixo, sapato e acessório. “Sem acessório” é uma escolha válida, exceto quando o caos exigir um acessório.
-5. Após 12 segundos, uma Carta de Caos muda o armário. O relógio da montagem pausa durante a carta e o cálculo.
-6. No Combo IQ, conte os looks que respeitam as duas regras e a carta. Use o Princípio Fundamental da Contagem e descarte as combinações proibidas.
-7. Responda, volte ao look e finalize as quatro escolhas antes de terminar o tempo.
+1. Escolha uma personagem, digite seu nome e selecione o tempo do Combo IQ: 30, 45, 60 ou 90 segundos. Para a primeira partida, recomendamos 60 ou 90 segundos.
+2. Clique em START GAME, leia a ocasião e as duas regras e inicie a montagem.
+3. Durante os 30 segundos da montagem, escolha o look original inteiro e um acessório, ou monte uma combinação com blusa, parte de baixo, sapato e acessório. “Sem acessório” é permitido, exceto quando uma carta exigir um.
+4. A Carta de Caos aparece durante a rodada e altera o armário. O relógio da montagem pausa durante a carta e o cálculo.
+5. No Combo IQ, conte os looks que respeitam as duas regras e a carta. Use o Princípio Fundamental da Contagem e desconte as combinações proibidas.
+6. Responda e finalize as escolhas do look antes de o tempo terminar.
 
-O menu “Como jogar” contém instruções completas, exemplos de cálculo, regras e dicas. Abrir o guia ou os créditos durante a montagem pausa a partida; fechar retoma o tempo.
+O menu “Como jogar” tem instruções completas, exemplos, regras e dicas. Abrir o guia ou os créditos durante a montagem pausa a partida; fechar retoma o tempo.
 
-## Cálculo e descontos das regras
+## Cálculo
 
-A contagem considera o armário do personagem selecionado.
+Use as quantidades disponíveis depois da carta. O cálculo soma as combinações de roupas separadas aos looks originais completos com acessório. Desconte primeiro os looks que falham na primeira regra e aplique a segunda regra às combinações restantes, contando cada look proibido uma única vez.
 
-Use as quantidades do armário depois da carta: parte de cima × parte de baixo × sapato × acessório. Os bloqueios da carta já foram retirados dessas quantidades.
+Exemplo: 24 combinações − 6 sem vermelho = 18; dessas 18, retire 6 que não têm elegância suficiente; restam 12 looks válidos.
 
-Desconte os looks que falham na primeira regra. Aplique a segunda somente aos que sobraram, contando cada look proibido uma única vez. Exemplo didático: 24 combinações − 6 sem vermelho = 18; entre essas 18, retire 6 que não têm elegância suficiente; resultado: 12 looks válidos.
-
-A regra de elegância exige ao menos duas peças elegantes entre parte de cima, parte de baixo e sapato; o acessório não entra nesse mínimo. A regra do vermelho aceita vermelho em qualquer categoria. Proibido tênis elimina os looks com tênis. O limite de R$ 90 é por peça e já é aplicado pela carta ao armário.
-
-No Combo IQ, abra “Como calcular e fazer os descontos?” para ver os descontos reais da rodada. Depois da resposta, aparece a conta completa, com cada subtração.
+A regra de elegância exige ao menos duas peças elegantes entre parte de cima, parte de baixo e sapatos. O acessório não entra nesse mínimo. A regra do vermelho aceita vermelho em qualquer categoria. “Proibido tênis” elimina looks com tênis. O Combo IQ mostra os descontos reais da rodada e a conta completa depois da resposta.
 
 ## Pontuação
 
@@ -45,55 +35,25 @@ No Combo IQ, abra “Como calcular e fazer os descontos?” para ver os desconto
 - Velocidade: até 100 pontos.
 - Combo IQ: 100 pontos pela resposta correta dentro do prazo.
 - Total máximo: 300 pontos.
-- Acertar o cálculo também dá 500 estrelas de carreira, separadas dos 300 pontos.
+- Acertar o cálculo também dá 500 estrelas de carreira, separadas dos pontos.
 
-Nome, ranking e estrelas são salvos no navegador deste aparelho. O jogo não usa contas nem sincroniza o ranking entre aparelhos.
+Nome, ranking e estrelas ficam salvos no navegador deste aparelho. O jogo não usa contas nem sincroniza o ranking entre aparelhos.
 
-## Personagens
+## Personagens e armário
 
-- Feminino 1: personagem original.
-- Feminino 2: personagem baseado na fotografia enviada.
-- Masculino 1 e Masculino 2: personagens baseados nas duas fotografias enviadas.
-- O masculino anterior foi retirado da seleção.
-- As demais peças e os acessórios foram preservados.
+Ana, Isadora, Lívia, Nicole e Sophia são as cinco personagens disponíveis. Os looks das fotos originais estão no armário como peças únicas; as roupas separadas também podem ser combinadas.
 
-## Trajes do Rio Grande do Sul
+## Traje de prenda
 
-Na prévia livre, clique em VESTIR PILCHA ou VESTIR PRENDA. Durante a partida, selecione os trajes pelas três categorias do armário.
+Na prévia livre, escolha VESTIR PRENDA. Durante uma partida, monte o traje pelas categorias do armário: corpete azul com mangas e rendas, saia longa azul e sapatos fechados. O corpete e a saia formam o vestido de prenda, tratado como conjunto quando selecionado.
 
-- Masculino: camisa com colete e lenço vermelho, bombacha com guaiaca e botas.
-- Feminino: corpete azul com mangas e rendas, saia longa azul e sapatos fechados. Corpete e saia formam o vestido de prenda.
-- Os trajes são inspirados em referências tradicionais do RS. Referência: https://www.mtg.org.br/wp-content/uploads/2026/01/Diretrizes-para-a-Pilcha-Gaucha-2025.pdf
-- O armário feminino tem 9 partes de cima × 7 partes de baixo × 7 calçados × 7 acessórios = 3.087 combinações. O masculino tem 6 acessórios, após a retirada da bandana: 9 × 7 × 7 × 6 = 2.646 combinações. O cálculo usa as quantidades atualizadas automaticamente.
-- A carta Costura abriu também bloqueia a bombacha masculina, junto das peças de alfaiataria marcadas.
-
-## Ajustes desta versão
-
-- Cabeças masculinas maiores em relação aos ombros; tronco mais estreito e curto, com pernas e acessórios acompanhando o ajuste.
-- Saia lavanda restaurada com pregas contínuas e recorte transparente, sem as faixas quebradas.
-- Blusas femininas alinhadas aos ombros, sem a base bege aparecendo acima da roupa ou nas laterais da cintura.
-
-- Bandana avulsa retirada do armário masculino; lenço da pilcha preservado.
-- Relógio masculino centralizado no pulso e dimensionado para a largura do braço.
-- Trocar de um personagem feminino usando lenço para um masculino seleciona “Sem acessório”.
-
-- Cabelo feminino preservado por uma camada própria, sem cortes causados pelas máscaras das blusas.
-- Cabeças masculinas redimensionadas em relação aos ombros, mantendo os mesmos rostos e as peças ajustadas.
-- Vestido de prenda completo preservado quando o ajuste inferior não precisa de transformação.
-
-- Recortes das imagens preparados antes da distribuição, removendo sobras de fundo também na abertura local.
-- A versão local e a hospedada usam a mesma composição Canvas.
-- Cós ajustado à cintura e à barra da camisa para evitar pontas nas laterais.
-- Pernas das calças e sapatos alinhados aos mesmos pontos de apoio.
-- Parte da frente dos calçados aparece sob a barra da calça.
-- Camisas de manga curta preservam o caimento do tronco sem receber a deformação usada nas mangas longas.
-- Referências, quatro personagens, dois armários, pilchas, guia, créditos e regras de cálculo mantidos.
+As peças seguem referências tradicionais do Rio Grande do Sul. Referência: https://www.mtg.org.br/wp-content/uploads/2026/01/Diretrizes-para-a-Pilcha-Gaucha-2025.pdf
 
 ## Cartas físicas
 
-Abra CARTAS-DE-CAOS.html para imprimir as cartas. Na emergência do jogo, escolha “Tenho uma carta física” e aplique o efeito retirado. O jogo lista apenas cartas que alteram o desafio e mantêm ao menos um look válido.
+Abra `CARTAS-DE-CAOS.html` para imprimir as cartas. Durante a emergência, escolha “Tenho uma carta física” e aplique o efeito retirado. O jogo lista apenas cartas que alteram o desafio e deixam ao menos um look válido.
 
-## Desenvolvido por
+## Créditos
 
 Gabriel Klemm Biesek — Buda  
 Instagram: https://www.instagram.com/budaa_01/
@@ -103,4 +63,4 @@ Instagram: https://www.instagram.com/fefortes14/
 
 ## Recursos
 
-A composição dos personagens usa Canvas com recursos locais. Os arquivos necessários para jogar estão incluídos no ZIP. PixiJS e sua licença permanecem na pasta vendor.
+A composição dos personagens usa Canvas e arquivos locais. Os recursos necessários para jogar estão incluídos no ZIP. PixiJS e sua licença ficam na pasta `vendor`.

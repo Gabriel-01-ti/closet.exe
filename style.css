@@ -227,10 +227,19 @@ dialog::backdrop{background:rgba(29,22,40,.66);backdrop-filter:blur(5px)}
 
 .look-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.look-actions .primary{margin:0;font-size:10px;min-height:45px;padding:12px 9px}.tradition-button{background:#ece4f4;color:#59426d;border:1px solid #ba9dcc}.tradition-button:disabled{opacity:.48;cursor:default}@media(max-width:390px){.look-actions .primary{font-size:9px;padding:12px 6px}}
 
-/* Four characters share the two existing wardrobes. */
-.character-controls{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.character-choice{min-height:42px;padding:5px 7px}.character-choice>span:nth-child(2){font-size:10px}.character-choice small{font-size:8px}.fitting-room,.game-layout{min-height:715px}.avatar,.active-round .avatar{margin-top:135px}@media(min-width:1450px){.fitting-room,.game-layout{min-height:750px}}@media(max-width:760px){.game-layout{min-height:0}.fitting-room{min-height:700px}.avatar,.active-round .avatar{margin-top:142px}.character-choice{min-height:42px;padding:5px 7px}.character-choice>span:nth-child(2){font-size:10px}.character-choice small{display:none}}@media(max-width:390px){.fitting-room{min-height:645px}.avatar,.active-round .avatar{margin-top:139px}.character-choice>span:nth-child(2){font-size:9px}}
+/* Seven feminine character choices in a compact, scrollable strip. */
+.character-controls{display:flex;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;grid-template-columns:none;gap:5px;align-items:flex-start;padding-bottom:4px}
+.character-choice{flex:0 0 64px;min-height:56px;padding:4px 3px;display:flex;flex-direction:column;justify-content:center;gap:2px;text-align:center}
+.character-choice>span:nth-child(2){font-size:8px;line-height:1.1;white-space:nowrap}
+.character-choice small,.character-choice b{display:none}
+.character-portrait{width:30px;height:31px}
+.character-portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 12%}
+@media(max-width:760px){.character-controls{left:7px;right:7px;top:42px;gap:4px}.character-choice{flex-basis:48px;min-height:48px;padding:3px 1px}.character-portrait{width:25px;height:26px}.character-choice>span:nth-child(2){font-size:7px}}
+@media(max-width:390px){.character-choice{flex-basis:44px}.character-choice>span:nth-child(2){font-size:6px}}
 
 .character-portrait svg{display:block;width:100%;height:100%;overflow:hidden}.rig-fallback>.photo-face{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 
 /* Keep the rig canvas at its native ratio at every viewport width. */
 .avatar,.active-round .avatar{height:auto!important;aspect-ratio:2/3;flex-shrink:0;width:min(344px,100%);max-width:100%}.active-round .avatar{width:min(320px,100%)}.rig-canvas{display:block;object-fit:contain!important;aspect-ratio:2/3}.fitting-room{overflow:hidden}@media(min-width:1450px){.avatar{width:min(376px,100%)}.active-round .avatar{width:min(355px,100%)}}@media(max-width:390px){.avatar{width:min(308px,100%)}.active-round .avatar{width:min(290px,100%)}}
+
+.full-look-photo{width:100%;height:84px;object-fit:contain!important;background:#eadeef}@media(max-width:760px){.full-look-photo{height:65px}}
